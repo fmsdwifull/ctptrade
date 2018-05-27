@@ -1,0 +1,6 @@
+all : *.cpp
+	g++ -pthread *.cpp ../lib/*.so -o login  -I ../include
+
+
+clean :
+	rm -f *.o rm *.out *.con login
