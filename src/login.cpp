@@ -1,18 +1,5 @@
-// 标准C库文件
-#include <stdio.h>
-#include <string.h>
-#include <cstdlib>
-
-// CTP头文件
-#include "ThostFtdcTraderApi.h"
-#include "ThostFtdcMdApi.h"
-#include "ThostFtdcUserApiDataType.h"
-#include "ThostFtdcUserApiStruct.h"
-
-// 线程控制相关
-#include <pthread.h>
-#include <semaphore.h>
-#include <unistd.h>
+#include "common.h"
+#include "market.h"
 
 // 服务器地址
 //char * serverAddress = (char *)"tcp://101.231.96.18:51205";
