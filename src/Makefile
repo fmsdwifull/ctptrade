@@ -1,6 +1,6 @@
 # subdir and objects in current dir
 SUBDIRS	= market trade
-OBJECTS	= login.o market.o
+OBJECTS	= main.o market.o
 
 
 all:subdirs ${OBJECTS}
