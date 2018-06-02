@@ -1,7 +1,7 @@
 # target, subdir, objects in current dir
 TARGET	= doller
 SUBDIRS	= src
-OBJECTS	= 
+OBJECTS	= *.o
 
 
 all:subdirs ${OBJECTS}

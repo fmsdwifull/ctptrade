@@ -3,15 +3,6 @@
 
 #include "common.h"
 
-//定义帐户信息结构体
-typedef struct MDStruct
-{
-	char FRONT_ADDR[100];
-	TThostFtdcBrokerIDType BROKER_ID;
-	TThostFtdcBrokerIDType INVESTOR_ID;
-	TThostFtdcBrokerIDType PASSWORD;
-};
-MDStruct hq; //实例化
 
 class CMarketHandler : public CThostFtdcMdSpi{
     public:

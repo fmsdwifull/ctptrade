@@ -1,3 +1,6 @@
+investorId：116372
+
+brokerId：9999
 # CTP API 使用范例
 - 该项目主要是为帮助生成CTP API测试片段，降低CTP接口的学习难度。
 - 目前仅支持在linux下用gcc编译使用。
