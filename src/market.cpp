@@ -74,6 +74,9 @@ void CMarketHandler::SubscribeMarketData()
 void CMarketHandler::OnRspSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
 	cerr << __FUNCTION__ << endl;
+	cerr << "--->>> ErrorID=" << pRspInfo->ErrorID << ", ErrorMsg=" << pRspInfo->ErrorMsg << endl;
+
+	cout << pRspInfo->ErrorMsg <<endl;
 }
 
 void CMarketHandler::OnRspUnSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
@@ -83,7 +86,9 @@ void CMarketHandler::OnRspUnSubMarketData(CThostFtdcSpecificInstrumentField *pSp
 //返回合约代码具体信息
 void CMarketHandler::OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarketData)
 {
-	//cerr << __FUNCTION__ << endl;
+	//cout>>pDepthMarketData->InstrumentID;;;
+	cerr << __FUNCTION__ << endl;
+	cout << __FUNCTION__ <<endl;
 	/*
 	QString dm = pDepthMarketData->InstrumentID;   //
 	QString updatetime = pDepthMarketData->UpdateTime;	  // 更新时间

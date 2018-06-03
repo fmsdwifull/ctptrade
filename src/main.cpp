@@ -14,9 +14,11 @@ sem_t sem;
 
 int main(int argc, char *argv[])
 {
+	sem_init(&sem,0,0);
 	CMarketHandler *cmd=new CMarketHandler();
     cmd->Init();
-
+	// 等待登出成功
+	sem_wait(&sem);
 	printf("主线程执行完毕!\n");
     return 0;
 }
