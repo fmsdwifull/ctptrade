@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-char* ppInstrumentID[]={"IF1609","ni1609","ru1609","SR609","cu1609","TA609"};	
+char* ppInstrumentID[]={"IF1809","ni1809","ru1809","SR809","cu1809","TA809"};	
 int iInstrumentID=6;
 char* serverAddress = (char *)"tcp://180.168.146.187:10010";
 
