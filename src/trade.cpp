@@ -1,46 +1,41 @@
-#include "MdSpi.h"
+#include "trade.h"
 #include <iostream>
-#include <QstringList>
 using namespace std;
 
 #pragma warning(disable: 4996)
 
-char* ppInstrumentID []={"IF1609","ni1609","ru1609","SR609","cu1609","TA609"};	
-int iInstrumentID=6;
 // 请求编号
-int iRequestID;
 
-MdSpi::MdSpi(QObject *parent)
-	: QObject(parent)
+CTradeHandler::CTradeHandler()
+{
+	printf("this is CTradeHandler");
+}
+
+CTradeHandler::~CTradeHandler()
 {
 
 }
 
-MdSpi::~MdSpi()
-{
-
-}
-
-void MdSpi::OnRspError(CThostFtdcRspInfoField *pRspInfo,
+void CTradeHandler::OnRspError(CThostFtdcRspInfoField *pRspInfo,
 						int nRequestID, bool bIsLast)
 {
 	cerr << "--->>> "<< __FUNCTION__ << endl;
 	IsErrorRspInfo(pRspInfo);
 }
 
-void MdSpi::OnFrontDisconnected(int nReason)
+void CTradeHandler::OnFrontDisconnected(int nReason)
 {
 	cerr << "--->>> " << __FUNCTION__ << endl;
 	cerr << "--->>> Reason = " << nReason << endl;
 }
 
-void MdSpi::OnHeartBeatWarning(int nTimeLapse)
+void CTradeHandler::OnHeartBeatWarning(int nTimeLapse)
 {
 	cerr << "--->>> " << __FUNCTION__ << endl;
 	cerr << "--->>> nTimerLapse = " << nTimeLapse << endl;
 }
 
-void MdSpi::OnFrontConnected()
+void CTradeHandler::OnFrontConnected()
 {
 	cerr << "--->>> " << __FUNCTION__ << endl;
 	///用户登录请求
@@ -48,7 +43,7 @@ void MdSpi::OnFrontConnected()
 }
 
 
-void MdSpi::ReqUserLogin()
+void CTradeHandler::ReqUserLogin()
 {
 	CThostFtdcReqUserLoginField req;
 	memset(&req, 0, sizeof(req));
@@ -59,7 +54,7 @@ void MdSpi::ReqUserLogin()
 	cerr << "--->>> 发送用户登录请求: " << ((iResult == 0) ? "成功" : "失败") << endl;
 }
 
-void MdSpi::OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
+void CTradeHandler::OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
 							CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
 	cerr << "--->>> " << __FUNCTION__ << endl;
@@ -73,13 +68,13 @@ void MdSpi::OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
 	}
 }
 //
-void MdSpi::SubscribeMarketData()
+void CTradeHandler::SubscribeMarketData()
 {
 	int iResult = pUserApi->SubscribeMarketData(ppInstrumentID, iInstrumentID);
 	cerr << "--->>> 发送行情订阅请求: " << ((iResult == 0) ? "成功" : "失败") << endl;
 }
 //自动交易模块化行情代码部分
-void MdSpi::SubscribeMarketData(QString dm)
+void CTradeHandler::SubscribeMarketData(QString dm)
 {
 	QStringList strlist=dm.split(",");
 	int iInstrumentID=strlist.length();
@@ -98,20 +93,20 @@ void MdSpi::SubscribeMarketData(QString dm)
 
 
 
-void MdSpi::OnRspSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
+void CTradeHandler::OnRspSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
 	cerr << __FUNCTION__ << endl;
 }
 
-void MdSpi::OnRspUnSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
+void CTradeHandler::OnRspUnSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
 	cerr << __FUNCTION__ << endl;
 }
 //返回合约代码具体信息
-void MdSpi::OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarketData)
+void CTradeHandler::OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarketData)
 {
-	//cerr << __FUNCTION__ << endl;
-	QString dm = pDepthMarketData->InstrumentID;   //
+	cerr << __FUNCTION__ << endl;
+/* 	QString dm = pDepthMarketData->InstrumentID;   //
 	QString updatetime = pDepthMarketData->UpdateTime;	  // 更新时间
 	QString lastprice = QString::number(pDepthMarketData->LastPrice);	  //最新价
 	QString buyprice = QString::number(pDepthMarketData->BidPrice1); //买一价
@@ -126,10 +121,10 @@ void MdSpi::OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarketDat
 	QString openprice=QString::number(pDepthMarketData->OpenPrice);	 //开盘价
 
 	QString HQTick = dm+","+updatetime+","+lastprice+","+buyprice+","+buyvol+","+sellprice+","+sellvol+","+zf+","+vol+","+zt+","+dt+","+openprice;	 //使用信号传递数据
-	emit sendData(HQTick); //只是发送了数据，需要接收端接收数据 ，a,在ctp.h头文件定义接收方法 b, 通过SLOT连接
+	emit sendData(HQTick); //只是发送了数据，需要接收端接收数据 ，a,在ctp.h头文件定义接收方法 b, 通过SLOT连接 */
 }
 
-bool MdSpi::IsErrorRspInfo(CThostFtdcRspInfoField *pRspInfo)
+bool CTradeHandler::IsErrorRspInfo(CThostFtdcRspInfoField *pRspInfo)
 {
 	// 如果ErrorID != 0, 说明收到了错误的响应
 	bool bResult = ((pRspInfo) && (pRspInfo->ErrorID != 0));
@@ -138,7 +133,7 @@ bool MdSpi::IsErrorRspInfo(CThostFtdcRspInfoField *pRspInfo)
 	return bResult;
 }
 
-void MdSpi::Init()
+void CTradeHandler::Init()
 {
 	pUserApi = CThostFtdcMdApi::CreateFtdcMdApi();
 	pUserApi->RegisterSpi(this);
