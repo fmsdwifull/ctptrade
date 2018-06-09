@@ -2,7 +2,7 @@
 #define __TRADE_H
 
 #include "common.h"
-
+/*
 typedef struct TdStruct
 {
 	 char FRONT_ADDR[100];
@@ -11,7 +11,7 @@ typedef struct TdStruct
 	 TThostFtdcPasswordKeyType PASSWORD;
 };
 TdStruct jy;
-
+*/
 //合约结构
 typedef struct HyStruct
 {
@@ -22,16 +22,16 @@ typedef struct HyStruct
 class CTradeHandler : public CThostFtdcTraderSpi
 {
 	public:
-		 HyStruct hy(QString);
+		 HyStruct hy(char*);
 		 void Init();
 		 CThostFtdcTraderApi* pUserApi;
 		 CTradeHandler();
 		 ~CTradeHandler();
 
 		 ///报单录入请求
-		 void ReqOrderInsert(QString dm,QString lx,int lots,double price);
+		 void ReqOrderInsert(char* dm,char* lx,int lots,double price);
 		 ///报单操作请求
-		 void ReqOrderAction(QString brokerid,QString wth,QString jys);
+		 void ReqOrderAction(char* brokerid,char* wth,char* jys);
 		 ///报单操作请求
 		 //void ReqOrderAction(CThostFtdcOrderField *pOrder);
 
