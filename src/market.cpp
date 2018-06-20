@@ -88,7 +88,17 @@ void CMarketHandler::OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepth
 {
 	//cout>>pDepthMarketData->InstrumentID;;;
 	cerr << __FUNCTION__ << endl;
-	cout << __FUNCTION__ <<endl;
+	//cout << __FUNCTION__ <<endl;
+        cout << pDepthMarketData->InstrumentID << endl; 
+        
+	cout << pDepthMarketData->UpdateTime << endl; 
+        cout << pDepthMarketData->LastPrice << endl; 
+        cout << pDepthMarketData->BidPrice1 << endl; 
+        cout << pDepthMarketData->BidVolume1 << endl; 
+
+        cout << pDepthMarketData->AskPrice1 << endl; 
+        cout << pDepthMarketData->AskVolume1 << endl; 
+         
 	/*
 	QString dm = pDepthMarketData->InstrumentID;   //
 	QString updatetime = pDepthMarketData->UpdateTime;	  // 更新时间

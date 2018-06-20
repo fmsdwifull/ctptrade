@@ -1,5 +1,6 @@
 #include "trade.h"
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 #pragma warning(disable: 4996)
@@ -8,8 +9,8 @@ using namespace std;
 
  typedef struct TdStruct
   {
-            char FRONT_ADDR[100];
-            TThostFtdcBrokerIDType BROKER_ID;
+           char FRONT_ADDR[100];
+           TThostFtdcBrokerIDType BROKER_ID;
            TThostFtdcInvestorIDType INVESTOR_ID;
            TThostFtdcPasswordKeyType PASSWORD;
   };
@@ -37,6 +38,15 @@ int k=0;
 CTradeHandler::CTradeHandler()
 {
 	printf("this is CTradeHandler");
+          memset(&jy, 0, sizeof(jy));
+          strcpy(jy.FRONT_ADDR, "tcp://180.168.146.187:10000");
+          //strcpy(jy.FRONT_ADDR, "tcp://180.168.146.187:10010");
+          strcpy(jy.BROKER_ID, "9999"); 
+          strcpy(jy.INVESTOR_ID, "116372");
+          strcpy(jy.PASSWORD, "y19860906");
+	  //strcpy(jy.INVESTOR_ID, "116372");
+          //strcpy(jy.PASSWORD, "y19860906");
+          //int iResult = pUserApi->ReqUserLogin(&req, ++iRequestID);
 }
 
 CTradeHandler::~CTradeHandler()
@@ -79,7 +89,10 @@ void CTradeHandler::OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
 
 		cerr << "--->>> 获取当前交易日 = " << pUserApi->GetTradingDay() << endl;
 		///投资者结算结果确认
-		ReqSettlementInfoConfirm();
+		//ReqSettlementInfoConfirm();
+
+                ReqQryInvestorPosition();
+                //ReqQryTradingAccount();
 	}
 }
 
@@ -114,22 +127,28 @@ void CTradeHandler::ReqQryInstrument()
 
 void CTradeHandler::OnRspQryInstrument(CThostFtdcInstrumentField *pInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
-
+      //cout <<"合约列表：" << pInstrument->InstrumentID <<endl;
 }
 
 void CTradeHandler::ReqQryTradingAccount()
 {
 	CThostFtdcQryTradingAccountField req;
 	memset(&req, 0, sizeof(req));
-	strcpy(req.BrokerID, jy.BROKER_ID);
-	strcpy(req.InvestorID, jy.INVESTOR_ID);
+	//strcpy(req.BrokerID, jy.BROKER_ID);
+	//strcpy(req.InvestorID, jy.INVESTOR_ID);
+	//strcpy(req.AccountID, "13817140713");
 	int iResult = pUserApi->ReqQryTradingAccount(&req, ++iRequestTdID);
-	cerr << "--->>> 请求查询资金账户: " << ((iResult == 0) ? "成功" : "失败") << endl;
+
+	//cerr << "--->>> 请求查询资金账户: " << ((iResult == 0) ? "成功" : "失败") << endl;
 }
 
 void CTradeHandler::OnRspQryTradingAccount(CThostFtdcTradingAccountField *pTradingAccount, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
-
+	cerr << "--------------   资金账户数据返回" <<endl;
+	cout << pTradingAccount->AccountID <<endl;
+	cout << "可用资金："<< setprecision(7) << pTradingAccount->Available <<endl;
+	cout << "可取资金："<<setprecision(7)<<pTradingAccount->WithdrawQuota<<endl;
+	cout << "持仓盈亏："<<setprecision(7)<<pTradingAccount->PositionProfit<<endl;
 }
 
 void CTradeHandler::ReqQryInvestorPosition()
@@ -145,7 +164,10 @@ void CTradeHandler::ReqQryInvestorPosition()
 
 void CTradeHandler::OnRspQryInvestorPosition(CThostFtdcInvestorPositionField *pInvestorPosition, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast)
 {
-  
+    cerr<<"----投资者持仓信息"<<endl;  
+    cerr<< pInvestorPosition->InstrumentID <<endl;  
+    cerr<< pInvestorPosition->PositionDate <<endl;  
+    cerr<< pInvestorPosition->ShortFrozen  <<endl;  
 }
 
 
